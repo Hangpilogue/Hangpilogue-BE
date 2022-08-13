@@ -1,12 +1,13 @@
 "use strict";
 const UserRepository = require("../repositories/user.repositoty");
-const crypto = require("crypto");
+const bcrypt = require("bcrypt");
+
 class Userservice {
   userRepositroy = new UserRepository();
 
   checkEmailDup = async (email) => {
     const result = await this.userRepositroy.checkEmailDup(email);
-
+    //   <<<joi 라이브러리
     if (result === email) throw Error(false);
     if (result === null) return true;
 
@@ -22,12 +23,11 @@ class Userservice {
     throw Error("알 수 없는 오류");
   };
 
-  signup = (email, nickname, password) => {
-    // joi로 컨트롤러에 오기전에 미들웨어 막기 했다고 가정
-    // 중복체크도 만들어야함
-    const salt = crypto.randomBytes(128).toString("base64");
-    console.log(salt);
-    //   this.userRepositroy.creatUser();
+  signup = async (email, nickname, password) => {
+    if (!email || !nickname || !password) throw Error(false);
+    const encryptedPW = await bcrypt.hashSync(password, 10);
+    console.log(encryptedPW);
+    this.userRepositroy.createUser(email, nickname, encryptedPW);
   };
 }
 
