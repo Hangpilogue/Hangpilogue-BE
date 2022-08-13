@@ -1,4 +1,5 @@
 {
+
   "dependencies": {
     "express": "^4.18.1",
     "joi": "^17.6.0",
@@ -8,10 +9,11 @@
     "sequelize-cli": "^6.4.1"
   },
   "name": "hangpilogue-be",
-  "description": "백엔드",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "백엔드",
+  "main": "app.js",
   "scripts": {
+
     "start": "nodemon ./app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,10 +21,20 @@
     "type": "git",
     "url": "git+https://github.com/Hangpilogue/Hangpilogue-BE.git"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Hangpilogue/Hangpilogue-BE/issues"
   },
-  "homepage": "https://github.com/Hangpilogue/Hangpilogue-BE#readme"
+  "homepage": "https://github.com/Hangpilogue/Hangpilogue-BE#readme",
+  "dependencies": {
+    "expree": "^2.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.3"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.4.1"
+  }
 }
