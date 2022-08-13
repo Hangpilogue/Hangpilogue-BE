@@ -13,6 +13,15 @@ class Userservice {
     throw Error("알 수 없는 오류");
   };
 
+  checkNickanmeDup = async (nickname) => {
+    const result = await this.userRepositroy.checkNickanmeDup(nickname);
+
+    if (result === nickname) throw Error(false);
+    if (result === null) return true;
+
+    throw Error("알 수 없는 오류");
+  };
+
   signup = (email, nickname, password) => {
     // joi로 컨트롤러에 오기전에 미들웨어 막기 했다고 가정
     // 중복체크도 만들어야함
