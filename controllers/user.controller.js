@@ -5,18 +5,17 @@ const Userservice = require("../services/user.service");
 class UserController {
   userService = new Userservice();
 
-  checkEmailDup = async (req, res, netx) => {
+  checkEmailDup = async (req, res, next) => {
     const { email } = req.body;
     try {
-      await this.userService.checkEmailDup(email);
+      const result = await this.userService.checkEmailDup(email);
+      return res.status(200).json({ result });
     } catch (err) {
-      res.send("이메일 형식에 맞지 않습니다.");
+      return res.status(400).json({ result: err.message });
     }
-
-    res.send("gd");
   };
 
-  signup = (req, res, netx) => {
+  signup = (req, res, next) => {
     console.log(req.body);
     const { email, nickname, password } = req.body;
     this.userService.signup(email, nickname, password);
