@@ -5,14 +5,8 @@ const Joi = require("joi");
 class Userservice {
   userRepositroy = new UserRepository();
 
-  checkEmail = async (email) => {
-    console.log(email, "유효성 검사");
-    const checkEmail = Joi.string()
-      .pattern(new RegExp("^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"))
-      .required();
-
-    const result = await checkEmail.validateAsync(email);
-    console.log(result, "gd");
+  checkEmailDup = async (email) => {
+    await this.userRepositroy.checkEmailDup(email);
   };
 
   signup = (email, nickname, password) => {
