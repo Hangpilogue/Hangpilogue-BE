@@ -5,10 +5,10 @@ const Userservice = require("../services/user.service");
 class UserController {
   userService = new Userservice();
 
-  checkEmail = async (req, res, netx) => {
+  checkEmailDup = async (req, res, netx) => {
     const { email } = req.body;
     try {
-      await this.userService.checkEmail(email);
+      await this.userService.checkEmailDup(email);
     } catch (err) {
       res.send("이메일 형식에 맞지 않습니다.");
     }
