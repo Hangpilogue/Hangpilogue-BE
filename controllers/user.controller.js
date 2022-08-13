@@ -14,8 +14,17 @@ class UserController {
       return res.status(400).json({ result: err.message });
     }
   };
+  checkNicknameDup = async (req, res, next) => {
+    const { nickname } = req.body;
+    try {
+      const result = await this.userService.checkNickanmeDup(nickname);
+      return res.status(200).json({ result });
+    } catch (err) {
+      return res.status(400).json({ result: err.message });
+    }
+  };
 
-  signup = (req, res, next) => {
+  signup = async (req, res, next) => {
     console.log(req.body);
     const { email, nickname, password } = req.body;
     this.userService.signup(email, nickname, password);

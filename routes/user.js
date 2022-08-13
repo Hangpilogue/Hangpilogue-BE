@@ -8,6 +8,7 @@ const signMiddleware = require("../middlewares/sign.middleware");
 
 router.use(signMiddleware);
 router.post("/dup/email", userController.checkEmailDup);
+router.post("/dup/nickname", userController.checkNicknameDup);
 router.post("/signup", userController.signup);
 
 module.exports = router;
