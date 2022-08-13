@@ -1,8 +1,8 @@
 "use strict";
-
+const { Users } = require("../models");
 class UserRepository {
   checkEmailDup = async (email) => {
-    // 시퀄라이즈 진행중
+    return await Users.findOne({ where: { email } });
   };
 }
 

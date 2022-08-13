@@ -1,12 +1,16 @@
 "use strict";
 const UserRepository = require("../repositories/user.repositoty");
 const crypto = require("crypto");
-const Joi = require("joi");
 class Userservice {
   userRepositroy = new UserRepository();
 
   checkEmailDup = async (email) => {
-    await this.userRepositroy.checkEmailDup(email);
+    const result = await this.userRepositroy.checkEmailDup(email);
+
+    if (result === email) throw Error(false);
+    if (result === null) return true;
+
+    throw Error("알 수 없는 오류");
   };
 
   signup = (email, nickname, password) => {
