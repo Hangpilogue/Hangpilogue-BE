@@ -8,6 +8,10 @@ class UserRepository {
   checkNickanmeDup = async (nickname) => {
     return await Users.findOne({ where: { nickname } });
   };
+
+  createUser = async (email, nickname, password) => {
+    await Users.create({ email, nickname, password });
+  };
 }
 
 module.exports = UserRepository;

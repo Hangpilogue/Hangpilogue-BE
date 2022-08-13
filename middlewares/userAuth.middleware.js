@@ -1,7 +1,6 @@
 "use strict";
 const jwt = require("jsonwebtoken");
 module.exports = (req, res, next) => {
-  console.log("Hi Am I middleware?");
   if (!req.headers.authorization) return res.send("It needs login");
   const { authorization } = req.headers;
   const [tokenType, tokenValue] = authorization.split(" ");

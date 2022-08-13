@@ -1,5 +1,5 @@
 "use strict";
-
+const bcrypt = require("bcrypt");
 const Userservice = require("../services/user.service");
 
 class UserController {
@@ -25,10 +25,13 @@ class UserController {
   };
 
   signup = async (req, res, next) => {
-    console.log(req.body);
     const { email, nickname, password } = req.body;
-    this.userService.signup(email, nickname, password);
-    res.status(200).send("ㅎㅇ");
+    try {
+      this.userService.signup(email, nickname, password);
+      res.status(200).send("ㅎㅇ");
+    } catch (err) {
+      res.status(400).send("gd");
+    }
   };
 }
 
