@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require("express");
 const app = express();
 const PORT = 5000;
@@ -8,9 +10,6 @@ const jwt = require("jsonwebtoken");
 
 app.use(express.json());
 app.use("/", express.urlencoded({ extended: false }), router);
-app.get("/token", (req, res) => {
-  jwt.sign();
-});
 
 app.listen(PORT, () => {
   console.log("Server Running");
