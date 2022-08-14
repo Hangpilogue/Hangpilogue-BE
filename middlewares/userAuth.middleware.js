@@ -1,13 +1,14 @@
 "use strict";
 const jwt = require("jsonwebtoken");
 module.exports = (req, res, next) => {
-  console.log("Hi Am I middleware?");
   if (!req.headers.authorization) return res.send("It needs login");
   const { authorization } = req.headers;
   const [tokenType, tokenValue] = authorization.split(" ");
   if (tokenType !== "Bearer") return res.send("It needs login");
   try {
-    jwt.verify(tokenValue, "SECRET_KEY");
+    const userInfo = jwt.verify(tokenValue, "SECRET_KEY");
+    res.locals.userId = userInfo.userId;
+    res.locals.nickname = userInfo.nickname;
   } catch (err) {
     if (e.name === "TokenExpiredError")
       return res.status(419).json({ message: "토큰이 만료되었습니다." });
