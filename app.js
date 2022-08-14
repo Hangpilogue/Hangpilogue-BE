@@ -6,7 +6,7 @@ const router = require("./routes");
 const { sequelize } = require("./models");
 
 sequelize
-.sync({force:true})
+// .sync({force:true})
 
 app.use(express.json());
 app.use("/", express.urlencoded({ extended: false }), router);

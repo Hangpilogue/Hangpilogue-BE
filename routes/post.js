@@ -8,12 +8,12 @@ router.post("/post", postControllers.postcreate);
 
 router.get("/posts", postControllers.postlistAll);
 
-// router.get("/posts/myposts", postControllers);
+router.get("/posts/myposts", postControllers.mypostlist);
 
-// router.get("/posts/:postId", postControllers);
+router.get("/posts/:postId", postControllers.postOne);
 
-// router.put("/posts/:postId", postControllers);
+router.put("/posts/:postId", postControllers.postupdete);
 
-// router.delete("/posts/:postId", postControllers);
+router.delete("/posts/:postId", postControllers.postdelete);
 
 module.exports = router;
