@@ -3,7 +3,6 @@
 const express = require("express");
 const app = express();
 const PORT = 5000;
-const { sequelize } = require("./models");
 const router = require("./routes");
 
 // sequelize.sync({ force: true });

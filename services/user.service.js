@@ -1,6 +1,7 @@
 "use strict";
 const UserRepository = require("../repositories/user.repositoty");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 class Userservice {
   userRepositroy = new UserRepository();
@@ -26,8 +27,27 @@ class Userservice {
   signup = async (email, nickname, password) => {
     if (!email || !nickname || !password) throw Error(false);
     const encryptedPW = await bcrypt.hashSync(password, 10);
-    console.log(encryptedPW);
-    this.userRepositroy.createUser(email, nickname, encryptedPW);
+    // 회원가입이 되어있는 사람의 정보가 또 들어오지 않게해야하는데?
+    // 서버에서 하나?
+    await this.userRepositroy.createUser(email, nickname, encryptedPW);
+  };
+
+  signin = async (email, password) => {
+    const userInfo = await this.userRepositroy.checkUserDup(email);
+
+    if (userInfo) {
+      const isSame = bcrypt.compareSync(password, userInfo.password);
+
+      if (isSame) {
+        const payload = {
+          nickname: userInfo.nickname,
+          userId: userInfo.userId,
+          // 기한 정하기
+        };
+        const token = jwt.sign(payload, "Taesik");
+        return token;
+      } else throw Error(false);
+    } else throw Error(false);
   };
 }
 
