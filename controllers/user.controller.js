@@ -28,9 +28,19 @@ class UserController {
     const { email, nickname, password } = req.body;
     try {
       this.userService.signup(email, nickname, password);
-      res.status(200).send("ㅎㅇ");
+      res.status(200).json({ result: true });
     } catch (err) {
-      res.status(400).send("gd");
+      res.status(400).json({ result: false });
+    }
+  };
+
+  signin = async (req, res, next) => {
+    const { email, password } = req.body;
+    try {
+      const gettoken = await this.userService.signin(email, password);
+      res.status(200).json({ result: true, token: gettoken });
+    } catch (err) {
+      res.status(400).json({ result: false });
     }
   };
 }
