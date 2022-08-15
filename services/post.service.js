@@ -48,14 +48,12 @@ class PostServices {
 
     postOne = async ( postId ) => {  
         //title,img,nickname,countcomment(댓글수),countlike(좋아요수) [댓글 행렬로 가공]
-
         const postone = await this.postrepositoty.postOne( postId );
-        
         return {
             postId: postone.postId,
             title: postone.title,
             img: postone.img,
-            nickname: postone.nickname,            
+            nickname: postone.User.nickname,            
             content: postone.content,
             // countcomment : 댓글 게수(배열의 길이),
             // countlike: 좋아요.(좋아요가 생기면 배열의 길이),
