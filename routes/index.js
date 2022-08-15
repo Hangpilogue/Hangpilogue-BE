@@ -8,6 +8,6 @@ const postRouter = require("./post");
 
 router.use("/api", router);
 router.use("/user", signRoter);
-router.use("/api", postRouter);
+router.use("/posts", postRouter);
 
 module.exports = router;
