@@ -1,5 +1,5 @@
 "use strict";
-const UserRepository = require("../repositories/user.repositoty");
+const UserRepository = require("../repositories/user.repository");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -38,6 +38,7 @@ class Userservice {
     const userInfo = await this.userRepositroy.checkUserDup(email);
 
     if (userInfo) {
+      const SECRET_KEY = process.env.SECRET_KEY;
       const isSame = bcrypt.compareSync(password, userInfo.password);
 
       if (isSame) {

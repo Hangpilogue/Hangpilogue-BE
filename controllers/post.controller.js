@@ -8,9 +8,9 @@ class PostControllers {
         try{ 
             const { userId } = res.locals; 
             const { title, content, img } = req.body;
-      
+
             await this.postServices.postcreate( title, content, img, userId )
-   
+
             res.status(200)
             .json({ result : true });
         }catch(err){
@@ -42,11 +42,11 @@ class PostControllers {
 
     postOne = async (req, res, next) => {  //좋아요 개수 조회 // 댓글 개수 조회
         try{ 
-            const { postId } = res.params; 
+            const { postId } = req.params; 
 
-            const post = await this.postServices.postOne( postId );
+            const postone = await this.postServices.postOne( postId );
 
-            res.status(200).json({ post });
+            res.status(200).json({ postone });
         }catch(err){
             return res.status(400).send(err.message);
         };
@@ -54,10 +54,11 @@ class PostControllers {
 
     postupdete = async (req, res, next) => {  
         try{ 
-            const { postId } = res.params; 
-            const { title, content, img } = res.body;
+            const { postId } = req.params; 
+            const { userId } = res.locals; 
+            const { title, content, img } = req.body;
 
-            await this.postServices.postupdete( postId, title, content, img );
+            await this.postServices.postupdete( postId, userId, title, content, img );
 
             res.status(200).json({ result : true, message: "댓글이 수정되었습니다." });
         }catch(err){
@@ -67,11 +68,12 @@ class PostControllers {
 
     postdelete = async (req, res, next) => {  //좋아요 개수 조회 // 댓글 개수 조회
         try{ 
-            const { postId } = res.params; 
+            const { postId } = req.params; 
+            const { userId } = res.locals; 
 
-            await this.postServices.postdelete( postId );
+            await this.postServices.postdelete( postId, userId );
 
-            res.status(200).json({ message: "댓글이 수정되었습니다." });
+            res.status(200).json({ message: "댓글이 삭제되었습니다." });
         }catch(err){
             return res.status(400).send(err.message);
         };

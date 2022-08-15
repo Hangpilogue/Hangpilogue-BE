@@ -1,19 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const PostControllers = require("../controllers/post.controller");
+const UserAuth = require("../middlewares/userAuth.middleware")
 
 const postControllers = new PostControllers();
 
-router.post("/post", postControllers.postcreate);
+router.post("/", UserAuth, postControllers.postcreate);
 
-router.get("/posts", postControllers.postlistAll);
+router.get("/", postControllers.postlistAll);
 
-router.get("/posts/myposts", postControllers.mypostlist);
+router.get("/myposts", UserAuth, postControllers.mypostlist);
 
-router.get("/posts/:postId", postControllers.postOne);
+router.get("/:postId", postControllers.postOne);
 
-router.put("/posts/:postId", postControllers.postupdete);
+router.put("/:postId", UserAuth, postControllers.postupdete);
 
-router.delete("/posts/:postId", postControllers.postdelete);
+router.delete("/:postId", UserAuth, postControllers.postdelete);
 
 module.exports = router;
