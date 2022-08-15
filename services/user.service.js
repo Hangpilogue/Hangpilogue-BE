@@ -3,6 +3,7 @@ const UserRepository = require("../repositories/user.repositoty");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const SECRET_KEY = process.env.SECRET_KEY;
 
 class Userservice {
   userRepositroy = new UserRepository();
@@ -45,7 +46,7 @@ class Userservice {
           userId: userInfo.userId,
           // 기한 정하기
         };
-        const token = jwt.sign(payload, process.env.SECERT_KEY);
+        const token = jwt.sign(payload, SECRET_KEY);
         return token;
       } else throw Error(false);
     } else throw Error(false);
