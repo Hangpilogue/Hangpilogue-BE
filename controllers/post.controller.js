@@ -44,9 +44,9 @@ class PostControllers {
         try{ 
             const { postId } = req.params; 
 
-            const post = await this.postServices.postOne( postId );
+            const postone = await this.postServices.postOne( postId );
 
-            res.status(200).json({ post });
+            res.status(200).json({ postone });
         }catch(err){
             return res.status(400).send(err.message);
         };
