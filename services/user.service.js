@@ -37,7 +37,7 @@ class Userservice {
     const userInfo = await this.userRepositroy.checkUserDup(email);
 
     if (userInfo) {
-      const SECERT_KEY = process.env.SECERT_KEY;
+      const SECRET_KEY = process.env.SECRET_KEY;
       const isSame = bcrypt.compareSync(password, userInfo.password);
 
       if (isSame) {
@@ -46,8 +46,7 @@ class Userservice {
           userId: userInfo.userId,
           // 기한 정하기
         };
-        const token = jwt.sign(payload, SECERT_KEY);
-        // 수정
+        const token = jwt.sign(payload, SECRET_KEY);
         return token;
       } else throw Error(false);
     } else throw Error(false);
