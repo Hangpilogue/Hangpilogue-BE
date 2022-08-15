@@ -21,16 +21,18 @@ module.exports = (sequelize, DataTypes) => {
       },
       img: {
         type: DataTypes.STRING,
-        unique: true,
         require: true,
       },
       title: {
         type: DataTypes.STRING,
-        unique: true,
         require: true,
       },
       content: {
         type: DataTypes.STRING,
+        require: true,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
         require: true,
       },
     },
