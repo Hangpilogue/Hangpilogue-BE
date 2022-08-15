@@ -12,12 +12,12 @@ class Postrepositoty {
     postlistAll = async () => {  //좋아요 개수 조회 // 댓글 개수 조회
 
         return await Posts.findAll({ 
-            // include: [{
-            //     model: Users,
-            //     attributes: ["nickname"],
-            //     },{
+            include: {
+                model: Users,
+                attributes: ["nickname"],
+                }//,{
             //     model: Comment,
-            //     attributes: ["CommentId"],//개수 새는 법??
+            //     attributes: ["content"],//개수 새는 법??
             // }]
         });
     };
@@ -25,20 +25,20 @@ class Postrepositoty {
     mypostlist = async ( userId ) => {
 
         return await Posts.findAll({ where: { userId },
-            // include: {
-            //     model: Users,
-            //     attributes: ["nickname"],
-            // },
+            include: {
+                model: Users,
+                attributes: ["nickname"],
+            },
         });
     };
 
     postOne = async ( postId ) => { //좋아요 개수 조회 // 댓글 개수 조회
 
-        return await Posts.findOne({ where: { postId :postId },
-            // include: [{
-            //     model: Users,
-            //     attributes: ["nickname"],
-            //     },{
+        return await Posts.findOne({ where: { postId },
+            include: {
+                model: Users,
+                attributes: ["nickname"],
+                }//,{
             //     model: Comment,
             //     attributes: ["content"],
             // }]
@@ -52,7 +52,10 @@ class Postrepositoty {
 
     postdelete = async ( postId, userId ) => {
 
-        await Posts.destroy({ where: {  postId, userId }});
+        await Posts.destroy({ where: { postId, userId }});
+    };
+    postcheck = async ( postId ) => { 
+        return await Posts.findOne({ where: { postId }});
     };
 };
 module.exports = Postrepositoty;
