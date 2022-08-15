@@ -2,14 +2,15 @@
 const UserRepository = require("../repositories/user.repositoty");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 class Userservice {
   userRepositroy = new UserRepository();
 
   checkEmailDup = async (email) => {
     const result = await this.userRepositroy.checkEmailDup(email);
-    //   <<<joi 라이브러리
-    if (result === email) throw Error(false);
+
+    if (result.email === email) throw Error(false);
     if (result === null) return true;
 
     throw Error("알 수 없는 오류");
@@ -44,7 +45,7 @@ class Userservice {
           userId: userInfo.userId,
           // 기한 정하기
         };
-        const token = jwt.sign(payload, "Taesik");
+        const token = jwt.sign(payload, process.env.SECERT_KEY);
         return token;
       } else throw Error(false);
     } else throw Error(false);
