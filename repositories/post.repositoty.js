@@ -1,64 +1,58 @@
-const { Post } = require("../models");
-const { User } = require("../models");
+const { Posts } = require("../models");
+const { Users } = require("../models");
 
 class Postrepositoty {
 
     postcreate = async ( title, content, img, userId ) => {
 
-        await Post.create({ title, content, img, userId });
+        await Posts.create({ title, content, img, userId });
 
     };
 
     postlistAll = async () => {  //좋아요 개수 조회 // 댓글 개수 조회
 
-        const postlists = await Post.findAll({ 
-            include: [{
-                model: User,
-                attributes: ["nickname"],
-                },{
-                model: Comment,
-                attributes: ["CommentId"],//개수 새는 법??
-            }]
+        return await Posts.findAll({ 
+            // include: [{
+            //     model: Users,
+            //     attributes: ["nickname"],
+            //     },{
+            //     model: Comment,
+            //     attributes: ["CommentId"],//개수 새는 법??
+            // }]
         });
-
-        return postlists;
     };
 
     mypostlist = async ( userId ) => {
 
-        const mypostlists = await Post.findAll({ where: { userId },
-            include: {
-                model: User,
-                attributes: ["nickname"],
-            },
+        return await Posts.findAll({ where: { userId },
+            // include: {
+            //     model: Users,
+            //     attributes: ["nickname"],
+            // },
         });
-
-        return mypostlists;
     };
 
     postOne = async ( postId ) => { //좋아요 개수 조회 // 댓글 개수 조회
 
-        const post = await Post.findAll({ where: { postId },
-            include: [{
-                model: User,
-                attributes: ["nickname"],
-                },{
-                model: Comment,
-                attributes: ["content"],
-            }]
+        return await Posts.findOne({ where: { postId :postId },
+            // include: [{
+            //     model: Users,
+            //     attributes: ["nickname"],
+            //     },{
+            //     model: Comment,
+            //     attributes: ["content"],
+            // }]
         });
-
-        return post;
     };
 
-    postupdete = async ( postId, title, content, img ) => {
+    postupdete = async ( postId, userId, title, content, img ) => {
 
-        await Post.update({ title, content, img }, { where: { postId }});
+        await Posts.update({ postId, userId, title, content, img }, { where: { postId, userId }});
     };
 
-    postdelete = async ( postId ) => {
+    postdelete = async ( postId, userId ) => {
 
-        await Post.destroy({ where: { postId }});
+        await Posts.destroy({ where: {  postId, userId }});
     };
 };
 module.exports = Postrepositoty;
