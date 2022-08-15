@@ -49,7 +49,6 @@ class PostServices {
     postOne = async ( postId ) => {  
         //title,img,nickname,countcomment(댓글수),countlike(좋아요수) [댓글 행렬로 가공]
         const postone = await this.postrepositoty.postOne( postId );
-        console.log(postone)
         return {
             postId: postone.postId,
             title: postone.title,
