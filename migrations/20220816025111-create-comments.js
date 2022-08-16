@@ -12,6 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       content: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       postId: {

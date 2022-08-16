@@ -33,8 +33,8 @@ module.exports = (sequelize, DataTypes) => {
   });
   Comments.associate = (models) => {
     models.Comments.belongsTo(models.Posts, {
-      foreignKey: "id",
-      targetKey:"id",
+      foreignKey: "postId",
+      targetKey:"postId",
       onDelete: "cascade",
     });
   };

@@ -53,10 +53,11 @@ class PostServices {
             img: postone.img,
             nickname: postone.User.nickname,            
             content: postone.content,
+            Comments: postone.Comments
             // countcomment : 댓글 게수(배열의 길이),
             // countlike: 좋아요.(좋아요가 생기면 배열의 길이),
           };
-   
+        return postone
         // return postone.map(post => {
         //     return {
         //       postId: post.postId,
