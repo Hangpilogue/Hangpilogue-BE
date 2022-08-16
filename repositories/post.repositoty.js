@@ -5,7 +5,7 @@ class Postrepositoty {
 
     postcreate = async ( title, content, img, userId ) => {
 
-        await Posts.create({ title, content, img, userId });
+        await Posts.create({ title, content, img, userId, UserUserId:userId });
 
     };
 
@@ -47,7 +47,7 @@ class Postrepositoty {
 
     postupdete = async ( postId, userId, title, content, img ) => {
 
-        await Posts.update({ postId, userId, title, content, img }, { where: { postId, userId }});
+        await Posts.update({ title, content, img }, { where: { postId, userId }});
     };
 
     postdelete = async ( postId, userId ) => {
