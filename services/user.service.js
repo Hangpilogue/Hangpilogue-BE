@@ -1,31 +1,36 @@
 "use strict";
-const UserRepository = require("../repositories/user.repositoty");
+const UserRepository = require("../repositories/user.repository");
+
+// require module
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const SECRET_KEY = process.env.SECRET_KEY;
 
+// Class Service
 class Userservice {
   userRepositroy = new UserRepository();
 
+  // 중복확인 이메일
   checkEmailDup = async (email) => {
     const result = await this.userRepositroy.checkEmailDup(email);
 
-    if (result.email === email) throw Error(false);
     if (result === null) return true;
+    if (result.email === email) throw Error(false);
 
     throw Error("알 수 없는 오류");
   };
 
+  // 중복확인 닉네임
   checkNickanmeDup = async (nickname) => {
     const result = await this.userRepositroy.checkNickanmeDup(nickname);
 
-    if (result === nickname) throw Error(false);
     if (result === null) return true;
+    if (result === nickname) throw Error(false);
 
     throw Error("알 수 없는 오류");
   };
 
+  // 회원가입
   signup = async (email, nickname, password) => {
     if (!email || !nickname || !password) throw Error(false);
     const encryptedPW = await bcrypt.hashSync(password, 10);
@@ -34,10 +39,12 @@ class Userservice {
     await this.userRepositroy.createUser(email, nickname, encryptedPW);
   };
 
+  // 로그인
   signin = async (email, password) => {
     const userInfo = await this.userRepositroy.checkUserDup(email);
 
     if (userInfo) {
+      const SECRET_KEY = process.env.SECRET_KEY;
       const isSame = bcrypt.compareSync(password, userInfo.password);
 
       if (isSame) {

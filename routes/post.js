@@ -5,16 +5,16 @@ const UserAuth = require("../middlewares/userAuth.middleware")
 
 const postControllers = new PostControllers();
 
-router.post("/post", UserAuth, postControllers.postcreate);
+router.post("/", UserAuth, postControllers.postcreate);
 
-router.get("/posts", postControllers.postlistAll);
+router.get("/", postControllers.postlistAll);
 
-router.get("/posts/myposts", UserAuth, postControllers.mypostlist);
+router.get("/myposts", UserAuth, postControllers.mypostlist);
 
-router.get("/posts/:postId", postControllers.postOne);
+router.get("/:postId", postControllers.postOne);
 
-router.put("/posts/:postId", UserAuth, postControllers.postupdete);
+router.put("/:postId", UserAuth, postControllers.postupdete);
 
-router.delete("/posts/:postId", UserAuth, postControllers.postdelete);
+router.delete("/:postId", UserAuth, postControllers.postdelete);
 
 module.exports = router;
