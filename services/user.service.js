@@ -3,6 +3,7 @@ const UserRepository = require("../repositories/user.repository");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const SECRET_KEY = process.env.SECRET_KEY;
 
 class Userservice {
   userRepositroy = new UserRepository();

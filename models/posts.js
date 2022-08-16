@@ -25,17 +25,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       title: {
         type: DataTypes.STRING,
-        allowNull: false,
         require: true,
       },
       content: {
         type: DataTypes.STRING,
-        allowNull: false,
         require: true,
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         require: true,
       },
     },
@@ -50,9 +47,11 @@ module.exports = (sequelize, DataTypes) => {
       targetKey:"userId",
       onDelete: "cascade",
     });
-    models.Posts.hasMany(models.Comments, {
-      onDelete: "cascade",
-    });
-  };
+  }
+//     models.Posts.hasMany(models.comments, {
+//       foreignKey: "null",
+//       onDelete: "cascade",
+//     });
+//   };
   return Posts;
 };
