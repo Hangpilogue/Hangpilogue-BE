@@ -5,7 +5,7 @@ class Postrepositoty {
 
     postcreate = async ( title, content, img, userId ) => {
 
-        await Posts.create({ title, content, img, userId, UserUserId:userId });
+        await Posts.create({ title, content, img, userId });
 
     };
 

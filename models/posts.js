@@ -46,15 +46,13 @@ module.exports = (sequelize, DataTypes) => {
   );
   Posts.associate = (models) => {
     models.Posts.belongsTo(models.Users, {
-      foreignKey: "userId",
-      targetKey:"userId",
+      foreignKey: "id",
+      targetKey:"id",
       onDelete: "cascade",
     });
-  }
-//     models.Posts.hasMany(models.comments, {
-//       foreignKey: "null",
-//       onDelete: "cascade",
-//     });
-//   };
+    models.Posts.hasMany(models.Comments, {
+      onDelete: "cascade",
+    });
+  };
   return Posts;
 };
