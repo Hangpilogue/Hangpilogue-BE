@@ -8,13 +8,10 @@ class PostControllers {
         try{ 
             const { userId } = res.locals; 
             const { title, content, img } = req.body;
-
             await this.postServices.postcreate( title, content, img, userId )
-
-            res.status(200)
-            .json({ result : true });
+            return res.status(200).json({ result: true });
         }catch(err){
-            return res.status(400).send(err.message);
+            return res.status(400).json({ result: false });
         };
     };
 
@@ -24,7 +21,7 @@ class PostControllers {
 
             res.status(200).json({ postlists });
         }catch(err){
-            return res.status(400).send(err.message);
+            return res.status(400).json({errormessage: "게시글 조회에 실패"});
         };
     };
 
@@ -36,7 +33,7 @@ class PostControllers {
 
             res.status(200).json({ mypostlists });
         }catch(err){
-            return res.status(400).send(err.message);
+            return res.status(400).json({errormessage: "게시글 조회에 실패"});
         };
     };
 
@@ -48,7 +45,7 @@ class PostControllers {
 
             res.status(200).json({ postone });
         }catch(err){
-            return res.status(400).send(err.message);
+            return res.status(400).json({errormessage: "게시글 조회에 실패"});
         };
     };
 
@@ -60,9 +57,9 @@ class PostControllers {
 
             await this.postServices.postupdete( postId, userId, title, content, img );
 
-            res.status(200).json({ result : true, message: "댓글이 수정되었습니다." });
+            return res.status(200).json( {message: "게시글 수정 했습니다."} );
         }catch(err){
-            return res.status(400).send(err.message);
+            return res.status(400).json({errormessage: "게시글 수정에 실패"});
         };
     };
 
@@ -75,7 +72,7 @@ class PostControllers {
 
             res.status(200).json({ message: "댓글이 삭제되었습니다." });
         }catch(err){
-            return res.status(400).send(err.message);
+            return res.status(400).json({errormessage: "게시글 삭제에 실패"});
         };
     };
 };
