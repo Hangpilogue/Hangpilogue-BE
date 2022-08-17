@@ -9,7 +9,7 @@ router.post("/", UserAuth, postControllers.postcreate);
 
 router.get("/", postControllers.postlistAll);
 
-router.get("/myposts", UserAuth, postControllers.mypostlist);
+router.get("/myposts/:page", UserAuth, postControllers.mypostlist);
 
 router.get("/:postId", postControllers.postOne);
 

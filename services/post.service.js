@@ -9,9 +9,8 @@ class PostServices {
     };
 
     postlistAll = async () => {
-            // title,img,nickname,countcomment(댓글수),countlike(좋아요수)
         const postlists = await this.postrepositoty.postlistAll();
-        postlists.sort((a, b) => { //시간 순서에 맞추어 정렬
+        postlists.sort((a, b) => {
             return b.createdAt - a.createdAt;
         });
         return postlists.map(post => {
@@ -20,32 +19,49 @@ class PostServices {
               img: post.img,
               title: post.title,
               nickname: post.User.nickname,
-              content: post.content,
-            //   countcomment : 댓글 게수(배열의 길이),
-            //   countlike: 좋아요.(좋아요가 생기면 배열의 길이),
+              countcomment: post.Comments.length,
             }
         });
     };
 
-    mypostlist = async ( userId ) => {  
-            //시간 순서에 맞추어 정렬, title,nickname,createdAt
+    mypostlist = async ( userId, page ) => {  
         const mypostlists = await this.postrepositoty.mypostlist( userId );
         mypostlists.sort((a, b) => {
             return b.createdAt - a.createdAt;
         })
-        return mypostlists.map(post => {
+
+        const totalCount = mypostlists.length //총 게시글 개수]
+        const limit = 10 //페이지의 게시글 개수
+        let totalPage = Math.ceil(totalCount / limit) //페이지 나누어진 개수
+        const currentPage = page //현제 보고있는 페이지 위치 숫자 (받아오는 값)
+        const pageCount = 5 //페이지 개수 및에 뜨는 숫자의 개수
+        let pageGroup = Math.ceil(currentPage / pageCount) //1,2,3... 페이지 그룹의 위치 12345,인지, 23456, 678910인지
+        let lastNumber = pageGroup * pageCount // 5,10,15 나올수있다.....계속 되거나
+        if (lastNumber > totalPage) {
+            lastNumber = totalPage
+        }
+        let firstNumber = lastNumber - (pageCount - 1) // 1,6,7
+        if (firstNumber < 1 ){
+            firstNumber = 1
+            lastNumber = pageCount
+        }
+        const next = lastNumber*10-1
+        const prev = lastNumber*10-50
+        const mypage = mypostlists.map(post => {
             return {
-              postId: post.postId,
-              title: post.title,
-              nickname: post.User.nickname,
-              createdAt: post.createdAt,
-            //   updatedAt: post.updatedAt
+                postId: post.postId,
+                title: post.title,
+                nickname: post.User.nickname,
+                createdAt: post.createdAt,
             }
         });
+        return {
+            currentPages: Array.from({ length: 5 }, (v, i) => i + firstNumber),
+            mypage: mypage.slice(prev, next)
+        }
     };
 
     postOne = async ( postId ) => {  
-        //countcomment(댓글수),countlike(좋아요수) [댓글 행렬로 가공]
         const postone = await this.postrepositoty.postOne( postId );
         return {
             postId: postone.postId,
@@ -54,21 +70,7 @@ class PostServices {
             nickname: postone.User.nickname,            
             content: postone.content,
             Comments: postone.Comments
-            // countcomment : 댓글 게수(배열의 길이),
-            // countlike: 좋아요.(좋아요가 생기면 배열의 길이),
           };
-        return postone
-        // return postone.map(post => {
-        //     return {
-        //       postId: post.postId,
-        //       title: post.title,
-        //       img: postone.img,
-        //       nickname: post.User.nickname,
-        //       content: postone.content,
-        //       countcomment : 댓글 게수(배열의 길이),
-        //       countlike: 좋아요.(좋아요가 생기면 배열의 길이),
-        //     }
-        // });
     };
 
     postupdete = async ( postId, userId, title, content, img ) => { 
