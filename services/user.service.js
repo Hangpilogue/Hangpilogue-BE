@@ -1,5 +1,11 @@
 "use strict";
 const UserRepository = require("../repositories/user.repository");
+const {
+  ForbiddenException,
+  ConflictException,
+  NotFoundException,
+  BadRequestException,
+} = require("../exception/customException");
 
 // require module
 const bcrypt = require("bcrypt");
@@ -12,34 +18,34 @@ class Userservice {
 
   // 중복확인 이메일
   checkEmailDup = async (email) => {
-    const result = await this.userRepositroy.checkEmailDup(email);
+    const checkEmail = await this.userRepositroy.checkEmailDup(email);
 
-    if (result === null) return true;
-    if (result.email === email) throw Error(false);
+    if (checkEmail === null) return "이 이메일은 사용 가능한 이메일 입니다.";
+    if (checkEmail.email === email)
+      throw new ConflictException(`이 이메일은 사용 불가능한 이메일 입니다.`);
 
     throw Error("알 수 없는 오류");
   };
 
-  // 중복확인 닉네임
   checkNickanmeDup = async (nickname) => {
     const result = await this.userRepositroy.checkNickanmeDup(nickname);
 
-    if (result === null) return true;
-    if (result === nickname) throw Error(false);
+    if (result === null) return `이 닉네임은 사용 가능한 닉네임 입니다.`;
+    if (result === nickname)
+      throw new ConflictException(`이 이메일은 사용 가능한 닉네임 입니다.`);
 
     throw Error("알 수 없는 오류");
   };
 
-  // 회원가입
   signup = async (email, nickname, password) => {
-    if (!email || !nickname || !password) throw Error(false);
+    if (!email || !nickname || !password)
+      throw BadRequestException(`입력 값을 확인해주세요.`);
     const encryptedPW = await bcrypt.hashSync(password, 10);
-    // 회원가입이 되어있는 사람의 정보가 또 들어오지 않게해야하는데?
-    // 서버에서 하나?
+
     await this.userRepositroy.createUser(email, nickname, encryptedPW);
+    return `회원가입 되었습니다.`;
   };
 
-  // 로그인
   signin = async (email, password) => {
     const userInfo = await this.userRepositroy.checkUserDup(email);
 

@@ -12,6 +12,8 @@ const { sequelize } = require("./models");
 app.use(express.json());
 app.use("/", express.urlencoded({ extended: false }), router);
 
+// 에러처리미들웨어
+
 app.listen(PORT, () => {
   console.log("Server Running");
 });
