@@ -35,7 +35,7 @@ class Postrepositoty {
                 attributes: ["nickname"],
                 },{
                 model: Comments,
-                attributes: ["content","nickname"],
+                attributes: ["commentId","content","nickname"],
             }]
         });
     };
