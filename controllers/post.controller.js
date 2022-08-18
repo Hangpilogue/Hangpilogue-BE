@@ -1,5 +1,5 @@
 const PostServices = require("../services/post.service");
-
+const exceptionHandler = require("../errorhandler/exception.handler");
 class PostControllers {
    
     postServices = new PostServices()
@@ -8,10 +8,12 @@ class PostControllers {
         try{ 
             const { userId } = res.locals; 
             const { title, content, img } = req.body;
-            await this.postServices.postcreate( title, content, img, userId )
-            return res.status(200).json({ result: true, message: "게시글이 생성되었습니다." });
+            const result = await this.postServices.postcreate( title, content, img, userId )
+            res.status(200).send(result);
         }catch(err){
-            return res.status(400).json({ result: false, errormessage: "게시글 생성에 실패" });
+            const exception = exceptionHandler(err);
+
+            return res.status(exception.statusCode).json(exception.message);
         };
     };
 
@@ -20,7 +22,9 @@ class PostControllers {
             const postlists = await this.postServices.postlistAll();
             res.status(200).json({ postlists });
         }catch(err){
-            return res.status(400).json({errormessage: "게시글 조회에 실패"});
+            const exception = exceptionHandler(err);
+
+            return res.status(exception.statusCode).json(exception.message);
         };
     };
 
@@ -31,7 +35,9 @@ class PostControllers {
             const mypostlists = await this.postServices.mypostlist( userId, page );
             res.status(200).json({ mypostlists });
         }catch(err){
-            return res.status(400).json({errormessage: "게시글 조회에 실패"});
+            const exception = exceptionHandler(err);
+
+            return res.status(exception.statusCode).json(exception.message);
         };
     };
 
@@ -41,7 +47,9 @@ class PostControllers {
             const postone = await this.postServices.postOne( postId );
             res.status(200).json({ postone });
         }catch(err){
-            return res.status(400).json({errormessage: "게시글 조회에 실패"});
+            const exception = exceptionHandler(err);
+
+            return res.status(exception.statusCode).json(exception.message);
         };
     };
 
@@ -50,10 +58,12 @@ class PostControllers {
             const { postId } = req.params; 
             const { userId } = res.locals; 
             const { title, content, img } = req.body;
-            await this.postServices.postupdete( postId, userId, title, content, img );
-            return res.status(200).json( { result: true, message: "게시글 수정 했습니다."} );
+            const result = await this.postServices.postupdete( postId, userId, title, content, img );
+            res.status(200).send(result);
         }catch(err){
-            return res.status(400).json({ result: false, errormessage: "게시글 수정에 실패"});
+            const exception = exceptionHandler(err);
+
+            return res.status(exception.statusCode).json(exception.message);
         };
     };
 
@@ -61,10 +71,12 @@ class PostControllers {
         try{ 
             const { postId } = req.params; 
             const { userId } = res.locals; 
-            await this.postServices.postdelete( postId, userId );
-            res.status(200).json({ result: true, message: "댓글이 삭제되었습니다." });
+            const result = await this.postServices.postdelete( postId, userId );
+            res.status(200).send(result);
         }catch(err){
-            return res.status(400).json({ result: false, errormessage: "게시글 삭제에 실패"});
+            const exception = exceptionHandler(err);
+
+            return res.status(exception.statusCode).json(exception.message);
         };
     };
 };

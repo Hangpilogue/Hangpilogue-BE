@@ -31,7 +31,6 @@ class Userservice {
 
   checkNickanmeDup = async (nickname) => {
     const result = await this.userRepositroy.checkNickanmeDup(nickname);
-    console.log(result);
     if (result === null) return `이 닉네임은 사용 가능한 닉네임 입니다.`;
     if (result.nickname === nickname)
       throw new ConflictException(`이 이메일은 사용 불가능한 닉네임 입니다.`);
