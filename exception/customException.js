@@ -44,6 +44,22 @@ class NotFoundException extends CustomException {
     this.statusCode = 404;
   }
 }
+class UnauthorizedException extends CustomException {
+  constructor(message) {
+    super(message);
+
+    this.name = "UnauthorizedException";
+    this.statusCode = 401;
+  }
+}
+class UnkownException extends CustomException {
+  constructor(message) {
+    super(message);
+
+    this.name = "UnkownException";
+    this.statusCode = 500;
+  }
+}
 
 module.exports = {
   CustomException,
@@ -51,4 +67,6 @@ module.exports = {
   ConflictException,
   NotFoundException,
   BadRequestException,
+  UnauthorizedException,
+  UnkownException,
 };

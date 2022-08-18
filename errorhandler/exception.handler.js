@@ -7,6 +7,7 @@ const { CustomException } = require("../exception/customException");
  */
 const exceptionHandler = (err) => {
   if (err instanceof CustomException) return err;
+  return err;
 };
 
 module.exports = exceptionHandler;

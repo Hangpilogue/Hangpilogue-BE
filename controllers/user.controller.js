@@ -55,9 +55,11 @@ class UserController {
     try {
       const gettoken = await this.userService.signin(email, password);
 
-      res.status(200).json({ result, token: gettoken });
+      res.status(200).json({ message: "로그인 되었습니다.", token: gettoken });
     } catch (err) {
-      res.status(400).json({ result: false });
+      const exception = exceptionHandler(err);
+
+      res.status(exception.statusCode).json(exception.message);
     }
   };
 }
