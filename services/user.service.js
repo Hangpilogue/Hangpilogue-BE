@@ -1,10 +1,12 @@
 "use strict";
 const UserRepository = require("../repositories/user.repository");
 const {
+  UnauthorizedException,
   ForbiddenException,
   ConflictException,
   NotFoundException,
   BadRequestException,
+  UnkownException,
 } = require("../exception/customException");
 
 // require module
@@ -24,26 +26,29 @@ class Userservice {
     if (checkEmail.email === email)
       throw new ConflictException(`이 이메일은 사용 불가능한 이메일 입니다.`);
 
-    throw Error("알 수 없는 오류");
+    throw new UnkownException("알 수 없는 오류");
   };
 
   checkNickanmeDup = async (nickname) => {
     const result = await this.userRepositroy.checkNickanmeDup(nickname);
-
+    console.log(result);
     if (result === null) return `이 닉네임은 사용 가능한 닉네임 입니다.`;
-    if (result === nickname)
-      throw new ConflictException(`이 이메일은 사용 가능한 닉네임 입니다.`);
+    if (result.nickname === nickname)
+      throw new ConflictException(`이 이메일은 사용 불가능한 닉네임 입니다.`);
 
-    throw Error("알 수 없는 오류");
+    throw new UnkownException("알 수 없는 오류");
   };
 
   signup = async (email, nickname, password) => {
     if (!email || !nickname || !password)
-      throw BadRequestException(`입력 값을 확인해주세요.`);
+      throw new BadRequestException(`입력 값을 확인해주세요.`);
+
     const encryptedPW = await bcrypt.hashSync(password, 10);
 
     await this.userRepositroy.createUser(email, nickname, encryptedPW);
     return `회원가입 되었습니다.`;
+
+    throw new UnkownException("알 수 없는 오류");
   };
 
   signin = async (email, password) => {
@@ -61,8 +66,11 @@ class Userservice {
         };
         const token = jwt.sign(payload, SECRET_KEY);
         return token;
-      } else throw Error(false);
-    } else throw Error(false);
+      } else
+        throw new UnauthorizedException("사용자 정보가 일치 하지 않습니다.");
+    } else throw new UnauthorizedException("사용자 정보가 일치 하지 않습니다.");
+
+    throw new UnkownException("알 수 없는 오류");
   };
 }
 
