@@ -1,5 +1,7 @@
 "use strict";
 const { Users } = require("../models");
+const { UnkownException } = require("../exception/customException");
+
 class UserRepository {
   checkEmailDup = async (email) => {
     return await Users.findOne({ where: { email } });
@@ -10,7 +12,11 @@ class UserRepository {
   };
 
   createUser = async (email, nickname, password) => {
-    await Users.create({ email, nickname, password });
+    try {
+      await Users.create({ email, nickname, password });
+    } catch (err) {
+      throw new UnkownException(err.parent.code);
+    }
   };
 
   checkUserDup = async (email) => {
