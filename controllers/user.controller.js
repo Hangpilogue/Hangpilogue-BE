@@ -41,8 +41,8 @@ class UserController {
 
     try {
       const result = await this.userService.signup(email, nickname, password);
-
-      res.status(200).json({ result });
+      console.log(result);
+      res.status(200).send(result);
     } catch (err) {
       const exception = exceptionHandler(err);
       res.status(exception.statusCode).send(exception.message);

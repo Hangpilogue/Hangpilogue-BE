@@ -47,8 +47,6 @@ class Userservice {
 
     await this.userRepositroy.createUser(email, nickname, encryptedPW);
     return `회원가입 되었습니다.`;
-
-    throw new UnkownException("알 수 없는 오류");
   };
 
   signin = async (email, password) => {
